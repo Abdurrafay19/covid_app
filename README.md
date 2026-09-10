@@ -1,121 +1,151 @@
-<div align="center">
-  <h1>Covid-19 Tracker App</h1>
+# covid_app
 
-  <p><strong>A real-time, cross-platform mobile application providing global and country-specific health statistics.</strong></p>
+A cross-platform Flutter mobile application for tracking real-time global and country-specific COVID-19 metrics via REST API endpoints.
 
-  <p>
-    <img alt="Flutter" src="https://img.shields.io/badge/Flutter-02569B?logo=flutter&logoColor=white" />
-    <img alt="Dart" src="https://img.shields.io/badge/Dart-0175C2?logo=dart&logoColor=white" />
-    <img alt="REST API" src="https://img.shields.io/badge/REST-API_Integration-FF4500?style=flat&logo=json&logoColor=white" />
-    <img alt="License" src="https://img.shields.io/badge/License-MIT-green.svg" />
-  </p>
-</div>
+## Features
 
----
+* **Global Statistics Dashboard**: Visualizes aggregate worldwide metrics—total cases, recoveries, active cases, and deaths—using pie chart data representation (`lib/world_statistics.dart`).
+* **Country Search & Filtering**: Provides a searchable index of country records with dynamic query filtering (`lib/countries_list.dart`).
+* **Shimmer Loading Indicators**: Renders skeleton loading states during asynchronous network calls (`lib/loading_countries_list.dart`).
+* **Country Details Breakdown**: Displays localized metrics, including critical cases, today's case counts, tests performed, and mortality figures (`lib/details_screen.dart`).
+* **Separated Service Layer**: Isolates API endpoint declarations (`lib/Services/app_url.dart`), HTTP network calls (`lib/Services/Utilities/stats_services.dart`), and data transfer models (`lib/Services/Models/world_stats_model.dart`).
 
-## 📖 Table of Contents
-- [About the Project](#-about-the-project)
-- [Key Features](#-key-features)
-- [Tech Stack](#-tech-stack)
-- [Project Architecture](#-project-architecture)
-- [Getting Started](#-getting-started)
-- [License](#-license)
-
----
-
-## 🚀 About the Project
-
-The **Covid-19 Tracker App** is a personal project built to demonstrate proficiency in connecting frontend mobile interfaces with live, external RESTful APIs. 
-
-Designed with a clean, responsive UI, the application fetches real-time data regarding the global pandemic. It handles complex JSON serialization, asynchronous network requests, and smooth state transitions to provide users with an uninterrupted, informative experience. The app also features custom Lottie animations (such as the virus graphic) to elevate the visual polish.
-
-### 🎯 Key Features
-* **Global Dashboard:** A high-level overview of worldwide statistics dynamically updated on launch.
-* **Granular Country Data:** A dedicated screen allowing users to view specific metrics for individual nations.
-* **Live Search & Filtering:** An optimized search mechanism within the `countries_list` that instantly filters results from the fetched API data without requiring additional network calls.
-* **Graceful Asynchronous UI:** Utilizes shimmer effects and loading screens (`loading_countries_list.dart`) to ensure the user is always informed of the network state while data is being fetched.
-* **Custom Animations:** Integrates JSON-based animations (`assets/virus.json`) for a modern, engaging splash screen and loading states.
-
----
-
-## 🛠 Tech Stack
-
-* **Framework:** Flutter (Cross-platform for Android & iOS)
-* **Language:** Dart
-* **Networking:** Standard HTTP package for REST API communication
-* **Data Parsing:** JSON serialization to custom Dart Models (`world_stats_model.dart`)
-* **Animations:** Lottie for Flutter
-
----
-
-## 🏗 Project Architecture
-
-To ensure the codebase remains maintainable and scalable, the application strictly separates business logic and networking from the user interface. 
+## Architecture & Codebase Layout
 
 ```text
-lib/
-├── Services/
-│   ├── Models/               # JSON data structures (world_stats_model.dart)
-│   ├── Utilities/            # API fetching logic (stats_services.dart)
-│   └── app_url.dart          # Centralized endpoint management
-├── splash_screen.dart        # Entry point with Lottie animations
-├── world_statistics.dart     # Global data dashboard
-├── countries_list.dart       # Searchable list of all countries
-├── details_screen.dart       # Deep-dive metrics for a specific selection
-└── main.dart                 # App initialization and routing
+covid_app/
+├── android/                         # Android native host project & Gradle configuration
+│   └── app/build.gradle
+├── assets/                          # Static assets and animation configurations
+│   └── virus.json
+├── ios/                             # iOS native host project & CocoaPods configuration
+│   └── Runner.xcodeproj/
+├── lib/
+│   ├── main.dart                    # Application entry point and theme definitions
+│   ├── splash_screen.dart           # Animated initial launch screen
+│   ├── world_statistics.dart        # Global overview screen with chart visualization
+│   ├── countries_list.dart          # Searchable list view of country metrics
+│   ├── details_screen.dart          # Drill-down view for individual country statistics
+│   ├── loading_countries_list.dart  # Shimmer skeleton loader component
+│   └── Services/
+│       ├── app_url.dart             # API base URLs and endpoint definitions
+│       ├── Models/
+│       │   └── world_stats_model.dart # Data serialization model for global metrics
+│       └── Utilities/
+│           └── stats_services.dart  # Network requests and data fetching service
+├── analysis_options.yaml            # Dart static analysis configuration
+└── pubspec.yaml                     # Dependencies, SDK constraints, and asset manifests
 
 ```
 
----
+## Prerequisites
 
-## ⚙️ Getting Started
+* **Flutter SDK**: `>=3.0.0`
+* **Dart SDK**: `>=3.0.0 <4.0.0`
+* **Android Development**: Android Studio, Android SDK (API Level 33+), JDK 11 or 17
+* **iOS Development** (macOS host required): Xcode 14+, CocoaPods
 
-Follow these steps to run the application locally.
-
-### Prerequisites
-
-* [Flutter SDK](https://docs.flutter.dev/get-started/install)
-* Android Studio / Xcode (for mobile emulation) or a connected physical device.
-
-### Installation
-
-**1. Clone the repository:**
+Verify that the local environment meets all toolchain requirements:
 
 ```bash
-git clone https://github.com/abdurrafay19/covid_app.git
+flutter doctor
+
+```
+
+## Installation & Setup
+
+1. Clone the repository:
+```bash
+git clone <REPOSITORY_URL>
 cd covid_app
 
 ```
 
-**2. Fetch Flutter dependencies:**
 
+2. Fetch Flutter package dependencies:
 ```bash
 flutter pub get
 
 ```
 
-**3. Run the application:**
-Ensure you have a device connected or an emulator running, then execute:
 
+3. Verify connected target devices:
 ```bash
-flutter run
+flutter devices
 
 ```
 
----
 
-## 🤝 Contributing
 
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+## Execution
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+Run the application on an active simulator, emulator, or physical device:
 
----
+```bash
+# Run on default connected device
+flutter run
 
-## 📄 License
+# Run on a specific target device
+flutter run -d <DEVICE_ID>
 
-Distributed under the MIT License. See `LICENSE` for more information.
+# Run in release mode
+flutter run --release
+
+```
+
+## External API Reference
+
+The network layer in `lib/Services/` queries public REST endpoints configured in `lib/Services/app_url.dart`:
+
+| Endpoint Role | Method | Path | Response Type | Description |
+| --- | --- | --- | --- | --- |
+| Global Overview | `GET` | `<BASE_URL>/all` | `JSON Object` | Retrieves cumulative global counts for cases, deaths, recovered, and active infections. |
+| Countries List | `GET` | `<BASE_URL>/countries` | `JSON Array` | Retrieves per-country metrics, ISO codes, and flag image references. |
+
+## Build & Packaging
+
+Compile production-ready release binaries:
+
+### Android
+
+```bash
+# Generate release APK
+flutter build apk --release
+
+# Generate Android App Bundle for Google Play
+flutter build appbundle --release
+
+```
+
+Output binaries are placed in:
+
+* `build/app/outputs/flutter-apk/app-release.apk`
+* `build/app/outputs/bundle/release/app-release.aab`
+
+### iOS (macOS host only)
+
+```bash
+flutter build ipa --release
+
+```
+
+Output archive is generated in:
+
+* `build/ios/archive/Runner.xcarchive`
+
+## Code Quality & Testing
+
+Execute static analysis and the test suite:
+
+```bash
+# Run static analyzer
+flutter analyze
+
+# Execute unit and widget tests
+flutter test
+
+```
+
+## License
+
+This project is licensed under the terms specified in [LICENSE.md](LICENSE.md).
